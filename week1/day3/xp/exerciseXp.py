@@ -54,7 +54,7 @@ class Song:
 stairway = Song(["There’s a lady who's sure", "all that glitters is gold", "and she’s buying a stairway to heaven"])
 stairway.sing_me_a_song()
 
-
+# Exercise 4 : Zoo
 print("-" * 30)
 print("Exercise 4 : Zoo")
 
@@ -103,10 +103,13 @@ zoo.add_animal("Zebra")
 zoo.add_animal("Cougar")
 zoo.add_animal("Baboon")
 zoo.add_animal("Cat")
-zoo.add_animal("Lion")        # duplicate
+zoo.add_animal("Lion") 
+zoo.add_animal("Tiger")     
 zoo.get_animals()
-zoo.sell_animal("Tiger")      # not in list
+zoo.sell_animal("Tiger") 
 zoo.get_animals()
 zoo.get_groups()    
-Zoo.sort_animals(zoo)  # Call sort_animals()       
+zoo.sort_animals()    
+zoo.get_animals() 
+zoo.get_groups()
 
