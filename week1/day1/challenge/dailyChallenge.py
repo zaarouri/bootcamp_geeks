@@ -16,3 +16,7 @@ for i in range(len(word)):
         result += word[i]
 
 print(result)
+
+
+
+
