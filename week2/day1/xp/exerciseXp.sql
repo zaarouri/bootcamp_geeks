@@ -1,3 +1,4 @@
+
 -- Create tables
 CREATE TABLE customers();  
 CREATE TABLE items();      
