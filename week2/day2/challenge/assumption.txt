@@ -1,0 +1,15 @@
+Q1
+Result: 0
+Answer: Because NOT IN (NULL) returns unknown, so no rows match.
+
+Q2
+Result: 2
+Answer: IDs 6 and 7 are not in (5), so they match.
+
+Q3
+Result: 0
+Answer: The subquery contains NULL, so NOT IN returns unknown for all rows.
+
+Q4
+Result: 2
+Answer: The subquery becomes NOT IN (5), so IDs 6 and 7 match.
