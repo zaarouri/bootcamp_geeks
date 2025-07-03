@@ -43,3 +43,18 @@ WHERE last_name = 'Jones';
 
 SELECT * FROM customers
 WHERE last_name NOT LIKE 'Scott';
+
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    customer_id INT,
+    item_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (item_id) REFERENCES items(id)
+);
+
+INSERT INTO orders (customer_id, item_id) VALUES (1, 2);
+INSERT INTO orders (customer_id, item_id) VALUES (3, 1);
+INSERT INTO orders (customer_id, item_id) VALUES (4, 1);
+INSERT INTO orders (customer_id, item_id) VALUES (1, 3);
+INSERT INTO orders (customer_id, item_id) VALUES (2, 2);

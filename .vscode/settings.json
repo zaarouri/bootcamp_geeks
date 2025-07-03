@@ -5,38 +5,18 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "bootcamp",
+            "name": "test",
             "database": "public",
-            "username": "bootcamp",
-            "password": "bootcamp123"
+            "username": "postgres",
+            "password": "postgres"
         },
         {
             "previewLimit": 50,
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "Geeks",
-            "database": "public",
-            "username": "postres",
-            "password": "postres"
-        },
-        {
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
-            "database": "public",
-            "username": "abdel",
-            "password": "abdel123",
-            "name": "geeks"
-        },
-        {
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
-            "name": "bootcamp",
-            "database": "bootcamp",
+            "name": "rental",
+            "database": "rental",
             "username": "postgres",
             "password": "postgres"
         }
