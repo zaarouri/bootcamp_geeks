@@ -19,6 +19,16 @@
             "database": "rental",
             "username": "postgres",
             "password": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "students",
+            "database": "bootcamp",
+            "username": "postgres",
+            "password": "postgres"
         }
     ]
 }
