@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise ninja</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+    button { margin: 5px; padding: 10px 15px; cursor: pointer; }
+    #output { background: white; padding: 15px; margin-top: 15px; border-radius: 5px; white-space: pre-wrap; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    th, td {
+      border: 1px solid black;
+      padding: 5px 10px;
+      text-align: center;
+    }
+    th { background-color: #eee; }
+  </style>
+</head>
+<body>
+
+  <h1>JavaScript Exercises 1–6</h1>
+
+  <button onclick="randomEven()">Exercise 1: Random Even Numbers</button>
+  <button onclick="runCapitalize()">Exercise 2: Capitalized Letters</button>
+  <button onclick="runPalindrome()">Exercise 3: Is Palindrome?</button>
+  <button onclick="runBiggest()">Exercise 4: Biggest Number</button>
+  <button onclick="runUnique()">Exercise 5: Unique Elements</button>
+  <button onclick="runCalendar()">Exercise 6: Calendar</button>
+
+  <div id="output"></div>
+  <div id="calendar-container"></div>
+
+  <script>
+    const output = document.getElementById("output");
+
+    // Exercise 1
+    function randomEven() {
+      const random = Math.floor(Math.random() * 100) + 1;
+      const evens = [];
+      for (let i = 0; i <= random; i++) {
+        if (i % 2 === 0) evens.push(i);
+      }
+      output.innerHTML = `🎲 Random number: ${random}\nEven numbers:\n${evens.join(', ')}`;
+    }
+
+    // Exercise 2
+    function capitalize(str) {
+      const evenCaps = str.split('').map((c, i) => i % 2 === 0 ? c.toUpperCase() : c).join('');
+      const oddCaps = str.split('').map((c, i) => i % 2 !== 0 ? c.toUpperCase() : c).join('');
+      return [evenCaps, oddCaps];
+    }
+
+    function runCapitalize() {
+      const input = "abcdef";
+      const [even, odd] = capitalize(input);
+      output.innerHTML = `capitalize("${input}") ➞\n[ "${even}", "${odd}" ]`;
+    }
+
+    // Exercise 3
+    function isPalindrome(str) {
+      const cleaned = str.toLowerCase();
+      return cleaned === cleaned.split('').reverse().join('');
+    }
+
+    function runPalindrome() {
+      const test1 = "madam";
+      const test2 = "hello";
+      output.innerHTML = `isPalindrome("${test1}") ➞ ${isPalindrome(test1)}\n` +
+                         `isPalindrome("${test2}") ➞ ${isPalindrome(test2)}`;
+    }
+
+    // Exercise 4
+    function biggestNumberInArray(arr) {
+      const nums = arr.filter(val => typeof val === 'number');
+      return nums.length ? Math.max(...nums) : 0;
+    }
+
+    function runBiggest() {
+      const array1 = [-1, 0, 3, 100, 99, 2, 99];
+      const array2 = ['a', 3, 4, 2];
+      const array3 = [];
+      output.innerHTML =
+        `Array 1 ➞ ${biggestNumberInArray(array1)}\n` +
+        `Array 2 ➞ ${biggestNumberInArray(array2)}\n` +
+        `Array 3 ➞ ${biggestNumberInArray(array3)}`;
+    }
+
+    // Exercise 5
+    function getUnique(arr) {
+      return [...new Set(arr)];
+    }
+
+    function runUnique() {
+      const list = [1, 2, 3, 3, 3, 3, 4, 5];
+      const unique = getUnique(list);
+      output.innerHTML = `Original list: [${list}]\nUnique list: [${unique}]`;
+    }
+
+    // Exercise 6
+    function createCalendar(year, month) {
+      const container = document.getElementById("calendar-container");
+      container.innerHTML = ""; // clear previous calendar
+
+      const date = new Date(year, month - 1);
+      const table = document.createElement("table");
+
+      const weekdays = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
+      const headerRow = document.createElement("tr");
+      weekdays.forEach(day => {
+        const th = document.createElement("th");
+        th.textContent = day;
+        headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+
+      let row = document.createElement("tr");
+      let skip = (date.getDay() + 6) % 7; // convert Sunday=0 to be last
+
+      for (let i = 0; i < skip; i++) {
+        const emptyCell = document.createElement("td");
+        emptyCell.textContent = "";
+        row.appendChild(emptyCell);
+      }
+
+      while (date.getMonth() === month - 1) {
+        const cell = document.createElement("td");
+        cell.textContent = date.getDate();
+        row.appendChild(cell);
+
+        if (date.getDay() === 0) {
+          table.appendChild(row);
+          row = document.createElement("tr");
+        }
+
+        date.setDate(date.getDate() + 1);
+      }
+
+      if (row.children.length > 0) {
+        while (row.children.length < 7) {
+          row.appendChild(document.createElement("td"));
+        }
+        table.appendChild(row);
+      }
+
+      container.appendChild(table);
+    }
+
+    function runCalendar() {
+      const year = parseInt(prompt("Enter year (e.g. 2024):"));
+      const month = parseInt(prompt("Enter month (1–12):"));
+
+      if (!year || !month || month < 1 || month > 12) {
+        output.innerHTML = "❌ Invalid year or month.";
+        return;
+      }
+
+      createCalendar(year, month);
+      output.innerHTML = `📅 Calendar for ${year}-${String(month).padStart(2, '0')}:`;
+    }
+  </script>
+</body>
+</html>

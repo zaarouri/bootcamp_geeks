@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EXERCISE GOLD</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f0f0f0; }
+    button { margin: 5px; padding: 10px; cursor: pointer; }
+    #output { background: #fff; padding: 15px; margin-top: 15px; border-radius: 5px; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    td { border: 1px solid black; padding: 6px 10px; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <h1>JavaScript Exercises 1–5</h1>
+
+  <button onclick="runIsBlank()">Exercise 1: isBlank</button>
+  <button onclick="runAbbrevName()">Exercise 2: Abbrev Name</button>
+  <button onclick="runSwapCase()">Exercise 3: Swap Case</button>
+  <button onclick="runIsOmnipresent()">Exercise 4: Omnipresent</button>
+  <button onclick="highlightDiagonal()">Exercise 5: Red Diagonal Table</button>
+
+  <div id="output"></div>
+
+  <!-- Exercise 5 Table -->
+  <table id="red-table">
+    <tr>
+      <td>1:1</td><td>2:1</td><td>3:1</td><td>4:1</td><td>5:1</td>
+    </tr>
+    <tr>
+      <td>1:2</td><td>2:2</td><td>3:2</td><td>4:2</td><td>5:2</td>
+    </tr>
+    <tr>
+      <td>1:3</td><td>2:3</td><td>3:3</td><td>4:3</td><td>5:3</td>
+    </tr>
+    <tr>
+      <td>1:4</td><td>2:4</td><td>3:4</td><td>4:4</td><td>5:4</td>
+    </tr>
+    <tr>
+      <td>1:5</td><td>2:5</td><td>3:5</td><td>4:5</td><td>5:5</td>
+    </tr>
+  </table>
+
+  <script>
+    const output = document.getElementById("output");
+
+    // Exercise 1: isBlank
+    function isBlank(str) {
+      return str.trim() === '';
+    }
+
+    function runIsBlank() {
+      const test1 = isBlank('');
+      const test2 = isBlank('abc');
+      output.innerHTML = `<h3>Exercise 1: isBlank</h3>
+        isBlank('') ➞ ${test1}<br>
+        isBlank('abc') ➞ ${test2}`;
+    }
+
+    // Exercise 2: Abbrev Name
+    function abbrevName(name) {
+      const parts = name.trim().split(" ");
+      if (parts.length < 2) return name;
+      return `${parts[0]} ${parts[1][0].toUpperCase()}.`;
+    }
+
+    function runAbbrevName() {
+      const result = abbrevName("Robin Singh");
+      output.innerHTML = `<h3>Exercise 2: Abbrev Name</h3>
+        abbrevName("Robin Singh") ➞ "${result}"`;
+    }
+
+    // Exercise 3: Swap Case
+    function swapCase(str) {
+      return str.split('').map(char =>
+        char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase()
+      ).join('');
+    }
+
+    function runSwapCase() {
+      const input = "The Quick Brown Fox";
+      const result = swapCase(input);
+      output.innerHTML = `<h3>Exercise 3: Swap Case</h3>
+        Original: "${input}"<br>
+        Swapped : "${result}"`;
+    }
+
+    // Exercise 4: Omnipresent
+    function isOmnipresent(arr, val) {
+      return arr.every(sub => sub.includes(val));
+    }
+
+    function runIsOmnipresent() {
+      const arr1 = [[1, 1], [1, 3], [5, 1], [6, 1]];
+      const arr2 = [[1, 1], [1, 3], [5, 1], [6, 1]];
+      const result1 = isOmnipresent(arr1, 1);
+      const result2 = isOmnipresent(arr2, 6);
+
+      output.innerHTML = `<h3>Exercise 4: isOmnipresent</h3>
+        [[1,1],[1,3],[5,1],[6,1]], 1 ➞ ${result1}<br>
+        [[1,1],[1,3],[5,1],[6,1]], 6 ➞ ${result2}`;
+    }
+
+    // Exercise 5: Red Diagonal
+    function highlightDiagonal() {
+      const table = document.getElementById("red-table");
+      for (let i = 0; i < table.rows.length; i++) {
+        const cell = table.rows[i].cells[i];
+        if (cell) cell.style.backgroundColor = 'red';
+      }
+      output.innerHTML = `<h3>Exercise 5: Red Diagonal Table</h3>
+        Diagonal cells highlighted in red.`;
+    }
+  </script>
+</body>
+</html>
