@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JS Bootcamp Exercises</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f0f0f0; }
+    button { margin: 5px; padding: 10px; cursor: pointer; }
+    #output { background: white; padding: 20px; border-radius: 5px; margin-top: 10px; }
+    img { margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>EXERCISE XP</h1>
+
+  <button onclick="displayNumbersDivisible()">Exercise 1: Divisible Numbers</button>
+  <button onclick="myBill()">Exercise 2: Shopping List</button>
+  <button onclick="runChangeEnough()">Exercise 3: What's In My Wallet</button>
+  <button onclick="totalVacationCost()">Exercise 4: Vacation Cost</button>
+  <button onclick="runUsersExercise()">Exercise 5: Users DOM</button>
+  <button onclick="runNavbarExercise()">Exercise 6: Change Navbar</button>
+  <button onclick="displayBooks()">Exercise 7: My Book List</button>
+
+  <div id="output"></div>
+
+  <div id="container">Users:</div>
+  <ul class="list">
+    <li>John</li>
+    <li>Pete</li>
+  </ul>
+  <ul class="list">
+    <li>David</li>
+    <li>Sarah</li>
+    <li>Dan</li>
+  </ul>
+
+  <div id="navBar">
+    <ul>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">My Friends</a></li>
+      <li><a href="#">Messenger</a></li>
+      <li><a href="#">My Pics</a></li>
+    </ul>
+  </div>
+
+  <section class="listBooks"></section>
+
+  <script>
+    const output = document.getElementById("output");
+
+    // ---------- Exercise 1 ----------
+    function displayNumbersDivisible(divisor = 23) {
+      let sum = 0;
+      let numbers = [];
+
+      for (let i = 0; i <= 500; i++) {
+        if (i % divisor === 0) {
+          numbers.push(i);
+          sum += i;
+        }
+      }
+
+      output.innerHTML = `<h3>Exercise 1</h3>
+        Numbers divisible by ${divisor}: ${numbers.join(", ")}<br>
+        Sum: ${sum}`;
+    }
+
+    // ---------- Exercise 2 ----------
+    const stock = { banana: 6, apple: 0, pear: 12, orange: 32, blueberry: 1 };
+    const prices = { banana: 4, apple: 2, pear: 1, orange: 1.5, blueberry: 10 };
+    const shoppingList = ["banana", "orange", "apple"];
+
+    function myBill() {
+      let total = 0;
+      for (let item of shoppingList) {
+        if (item in stock && stock[item] > 0) {
+          total += prices[item];
+          stock[item] -= 1;
+        }
+      }
+      output.innerHTML = `<h3>Exercise 2</h3>Total Bill: $${total}`;
+    }
+
+    // ---------- Exercise 3 ----------
+    function changeEnough(itemPrice, change) {
+      const [q, d, n, p] = change;
+      const total = q * 0.25 + d * 0.10 + n * 0.05 + p * 0.01;
+      return total >= itemPrice;
+    }
+
+    function runChangeEnough() {
+      const result1 = changeEnough(14.11, [2, 100, 0, 0]);
+      const result2 = changeEnough(0.75, [0, 0, 20, 5]);
+      output.innerHTML = `<h3>Exercise 3</h3>
+        Can afford 14.11 with [2,100,0,0]? ${result1}<br>
+        Can afford 0.75 with [0,0,20,5]? ${result2}`;
+    }
+
+    // ---------- Exercise 4 ----------
+    function hotelCost(nights) {
+      return nights * 140;
+    }
+
+    function planeRideCost(destination) {
+      destination = destination.toLowerCase();
+      if (destination === "london") return 183;
+      if (destination === "paris") return 220;
+      return 300;
+    }
+
+    function rentalCarCost(days) {
+      let total = days * 40;
+      if (days > 10) total *= 0.95;
+      return total;
+    }
+
+    function totalVacationCost() {
+      let nights = parseInt(prompt("How many hotel nights?"));
+      let dest = prompt("Destination?");
+      let days = parseInt(prompt("Days to rent a car?"));
+
+      const hotel = hotelCost(nights);
+      const plane = planeRideCost(dest);
+      const car = rentalCarCost(days);
+      const total = hotel + plane + car;
+
+      output.innerHTML = `<h3>Exercise 4</h3>
+        Hotel: $${hotel} <br>
+        Plane: $${plane} <br>
+        Car: $${car} <br>
+        Total: <strong>$${total}</strong>`;
+    }
+
+    // ---------- Exercise 5 ----------
+    function runUsersExercise() {
+      const container = document.getElementById("container");
+      console.log(container);
+
+      document.querySelectorAll("ul")[0].children[1].textContent = "Richard";
+      document.querySelectorAll("ul")[1].children[1].remove();
+
+      document.querySelectorAll("ul").forEach(ul => {
+        ul.children[0].textContent = "Abdelmounime";
+        ul.classList.add("student_list");
+      });
+
+      document.querySelector("ul").classList.add("university", "attendance");
+      container.style.backgroundColor = "lightblue";
+      container.style.padding = "10px";
+
+      document.querySelectorAll("ul")[1].lastElementChild.style.display = "none";
+      document.querySelectorAll("ul")[0].children[1].style.border = "2px solid black";
+      document.body.style.fontSize = "18px";
+
+      if (container.style.backgroundColor === "lightblue") {
+        const users = document.querySelectorAll("ul")[0].children;
+        alert(`Hello ${users[0].textContent} and ${users[1].textContent}`);
+      }
+
+      output.innerHTML = `<h3>Exercise 5</h3>DOM changes done. Check alert and list.`;
+    }
+
+    // ---------- Exercise 6 ----------
+    function runNavbarExercise() {
+      const nav = document.getElementById("navBar");
+      nav.setAttribute("id", "socialNetworkNavigation");
+
+      const newLi = document.createElement("li");
+      newLi.textContent = "Logout";
+      nav.querySelector("ul").appendChild(newLi);
+
+      const first = nav.querySelector("ul").firstElementChild.textContent;
+      const last = nav.querySelector("ul").lastElementChild.textContent;
+
+      output.innerHTML = `<h3>Exercise 6</h3>
+        First link: ${first}<br>
+        Last link: ${last}`;
+    }
+
+    // ---------- Exercise 7 ----------
+    const allBooks = [
+      {
+        title: "Sapiens",
+        author: "Yuval Noah Harari",
+        image: "https://m.media-amazon.com/images/I/41X6e8fE9XL.jpg",
+        alreadyRead: true,
+      },
+      {
+        title: "The Alchemist",
+        author: "Paulo Coelho",
+        image: "https://m.media-amazon.com/images/I/41bWcNdTG+L.jpg",
+        alreadyRead: false,
+      },
+    ];
+
+    function displayBooks() {
+      const section = document.querySelector(".listBooks");
+      section.innerHTML = "<h3>Exercise 7</h3>";
+
+      allBooks.forEach(book => {
+        const bookDiv = document.createElement("div");
+        const p = document.createElement("p");
+        const img = document.createElement("img");
+
+        p.textContent = `${book.title} by ${book.author}`;
+        if (book.alreadyRead) p.style.color = "red";
+        img.src = book.image;
+        img.style.width = "100px";
+
+        bookDiv.appendChild(p);
+        bookDiv.appendChild(img);
+        section.appendChild(bookDiv);
+      });
+
+      output.innerHTML = `Displayed ${allBooks.length} books`;
+    }
+  </script>
+</body>
+</html>
