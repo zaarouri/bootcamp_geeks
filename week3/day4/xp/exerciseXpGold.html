@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM Forms Exercises</title>
+</head>
+<body>
+
+  <!-- Exercise 1: Select a Kind of Music -->
+  <h2>Exercise 1: Select a kind of Music</h2>
+  <select id="genres">
+    <option value="rock">Rock</option>
+    <option value="blues" selected>Blues</option>
+  </select>
+  <button onclick="showSelectedGenre()">Show Selected Genre</button>
+  <p id="genreDisplay"></p>
+
+  <!-- Exercise 2: Delete Colors -->
+  <h2>Exercise 2: Delete Colors</h2>
+  <form>
+    <select id="colorSelect">
+      <option>Red</option>
+      <option>Green</option>
+      <option>White</option>
+      <option>Black</option>
+    </select>
+    <input type="button" value="Select and Remove" onclick="removecolor()">
+  </form>
+
+  <!-- Exercise 3: Shopping List -->
+  <h2>Exercise 3: Shopping List</h2>
+  <div id="root"></div>
+
+  <script>
+    // -------- Exercise 1 --------
+    // Add "Classic" option and set it as selected
+    const genreSelect = document.getElementById("genres");
+    const classicOption = document.createElement("option");
+    classicOption.value = "classic";
+    classicOption.text = "Classic";
+    classicOption.selected = true;
+    genreSelect.appendChild(classicOption);
+
+    function showSelectedGenre() {
+      const display = document.getElementById("genreDisplay");
+      display.textContent = "Selected genre: " + genreSelect.value;
+    }
+
+    // -------- Exercise 2 --------
+    function removecolor() {
+      const colorSelect = document.getElementById("colorSelect");
+      colorSelect.remove(colorSelect.selectedIndex);
+    }
+
+    // -------- Exercise 3 --------
+    const root = document.getElementById("root");
+    let shoppingList = [];
+
+    const form = document.createElement("form");
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Enter item";
+
+    const addButton = document.createElement("button");
+    addButton.type = "submit";
+    addButton.textContent = "AddItem";
+
+    const clearButton = document.createElement("button");
+    clearButton.type = "button";
+    clearButton.textContent = "ClearAll";
+
+    const ul = document.createElement("ul");
+
+    form.appendChild(input);
+    form.appendChild(addButton);
+    form.appendChild(clearButton);
+    root.appendChild(form);
+    root.appendChild(ul);
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const value = input.value.trim();
+      if (value) {
+        shoppingList.push(value);
+        const li = document.createElement("li");
+        li.textContent = value;
+        ul.appendChild(li);
+        input.value = "";
+      }
+    });
+
+    clearButton.addEventListener("click", function() {
+      shoppingList = [];
+      ul.innerHTML = "";
+    });
+  </script>
+</body>
+</html>
