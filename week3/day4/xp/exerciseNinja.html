@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS DOM Exercises</title>
+  <style>
+    #totalTip {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Exercise 1: Calculate the Tip -->
+  <h2>Exercise 1: Tip Calculator</h2>
+  <div>
+    <label>Bill Amount:</label>
+    <input id="billAmt" type="number" placeholder="Enter bill amount"><br>
+
+    <label>Service Quality:</label>
+    <select id="serviceQual">
+      <option value="0">--Choose--</option>
+      <option value="0.3">30% - Outstanding</option>
+      <option value="0.2">20% - Good</option>
+      <option value="0.15">15% - It was OK</option>
+      <option value="0.1">10% - Bad</option>
+      <option value="0.05">5% - Terrible</option>
+    </select><br>
+
+    <label>Number of People:</label>
+    <input id="numOfPeople" type="number" placeholder="Number of people"><br><br>
+
+    <button id="calculate">Calculate</button>
+
+    <div id="totalTip">
+      <p>Tip per person: <span id="tip"></span></p>
+      <span id="each">(each)</span>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- ✅ Exercise 2: Email Validation -->
+  <h2>Exercise 2: Email Validation</h2>
+  <form id="emailForm">
+    <input type="email" id="emailInput" placeholder="Enter your email">
+    <button type="submit">Validate Email</button>
+  </form>
+  <p id="emailMessage"></p>
+
+  <hr>
+
+  <!-- ✅ Exercise 3: Geolocation -->
+  <h2>Exercise 3: Get Geolocation</h2>
+  <button onclick="getLocation()">Get My Location</button>
+  <p id="locationOutput"></p>
+
+  <script>
+    // ✅ Exercise 1: Tip Calculator
+    function calculateTip() {
+      const billAmount = document.getElementById("billAmt").value;
+      const serviceQuality = document.getElementById("serviceQual").value;
+      let numberOfPeople = document.getElementById("numOfPeople").value;
+
+      if (billAmount === "" || serviceQuality == 0) {
+        alert("Please enter bill amount and service quality.");
+        return;
+      }
+
+      if (numberOfPeople === "" || numberOfPeople <= 1) {
+        numberOfPeople = 1;
+        document.getElementById("each").style.display = "none";
+      } else {
+        document.getElementById("each").style.display = "inline";
+      }
+
+      const total = (billAmount * serviceQuality) / numberOfPeople;
+      document.getElementById("totalTip").style.display = "block";
+      document.getElementById("tip").innerText = total.toFixed(2);
+    }
+
+    document.getElementById("calculate").onclick = calculateTip;
+
+    // ✅ Exercise 2: Email Validation
+    document.getElementById("emailForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("emailInput").value.trim();
+      const message = document.getElementById("emailMessage");
+
+      // Option 1: Simple custom check (no regex)
+      if (!email.includes("@") || !email.includes(".") || email.length < 5) {
+        message.textContent = "❌ Invalid email (simple check)";
+        message.style.color = "red";
+        return;
+      }
+
+      // Option 2: Regex check
+      const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!regex.test(email)) {
+        message.textContent = "❌ Invalid email (regex check)";
+        message.style.color = "red";
+      } else {
+        message.textContent = "✅ Valid email!";
+        message.style.color = "green";
+      }
+    });
+
+    // ✅ Exercise 3: Geolocation
+    function getLocation() {
+      const output = document.getElementById("locationOutput");
+
+      if (!navigator.geolocation) {
+        output.textContent = "Geolocation is not supported by your browser.";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          output.innerHTML = `Latitude: ${lat}<br>Longitude: ${lon}`;
+        },
+        (error) => {
+          output.textContent = "Unable to retrieve your location.";
+        }
+      );
+    }
+  </script>
+</body>
+</html>

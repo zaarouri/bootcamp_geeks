@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mad Libs Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px;
+      text-align: center;
+      color: #333;
+    }
+
+    h1 {
+      color: #4a90e2;
+    }
+
+    form {
+      background: white;
+      display: inline-block;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 15px;
+      margin-right: 10px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #4a90e2;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ab8;
+    }
+
+    #story {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 10px 15px;
+      background: #e7f3ff;
+      border-left: 5px solid #4a90e2;
+      font-style: italic;
+      border-radius: 5px;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toggle {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 10%;
+    }
+    .toggle label {
+        text-wrap: none;
+        font-size: 14px;
+       width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mad Libs</h1>
+
+  <div class="toggle">
+    <label for="darkModeToggle">Dark Mode</label>
+    <input type="checkbox" id="darkModeToggle">
+  </div>
+
+  <form id="libform">
+    <label for="noun">Noun:</label>
+    <input type="text" id="noun">
+
+    <label for="adjective">Adjective:</label>
+    <input type="text" id="adjective">
+
+    <label for="person">Someone's Name:</label>
+    <input type="text" id="person">
+
+    <label for="verb">Verb:</label>
+    <input type="text" id="verb">
+
+    <label for="place">A place:</label>
+    <input type="text" id="place">
+
+    <button id="lib-button">Lib it!</button>
+  </form>
+
+  <p>Generated story:</p>
+  <span id="story"></span>
+
+  <script>
+    const form = document.getElementById("libform");
+    const storySpan = document.getElementById("story");
+    const libButton = document.getElementById("lib-button");
+
+    const templates = [
+      (noun, adj, person, verb, place) => `Once upon a time, a ${adj} ${noun} wanted to ${verb} with ${person} in ${place}.`,
+      (noun, adj, person, verb, place) => `${person} took their ${adj} ${noun} to ${place} to ${verb} all day long.`,
+      (noun, adj, person, verb, place) => `Did you hear about the ${adj} ${noun} that tried to ${verb} ${person} in ${place}?`,
+    ];
+
+    let currentWords = [];
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const noun = document.getElementById("noun").value.trim();
+      const adjective = document.getElementById("adjective").value.trim();
+      const person = document.getElementById("person").value.trim();
+      const verb = document.getElementById("verb").value.trim();
+      const place = document.getElementById("place").value.trim();
+
+      if (!noun || !adjective || !person || !verb || !place) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      currentWords = [noun, adjective, person, verb, place];
+
+      const randomIndex = Math.floor(Math.random() * templates.length);
+      const story = templates[randomIndex](...currentWords);
+
+      storySpan.textContent = story;
+    });
+
+    const shuffleBtn = document.createElement("button");
+    shuffleBtn.textContent = "🔁 Shuffle Story";
+    shuffleBtn.type = "button";
+    form.appendChild(shuffleBtn);
+
+    shuffleBtn.addEventListener("click", () => {
+      if (currentWords.length !== 5) {
+        alert("Please submit the form first.");
+        return;
+      }
+      let randomIndex = Math.floor(Math.random() * templates.length);
+      let newStory = templates[randomIndex](...currentWords);
+      storySpan.textContent = newStory;
+    });
+
+    const toggle = document.getElementById("darkModeToggle");
+    toggle.addEventListener("change", function () {
+      if (this.checked) {
+        document.body.style.backgroundColor = "#1e1e1e";
+        document.body.style.color = "#f1f1f1";
+        form.style.background = "#2e2e2e";
+        storySpan.style.background = "#3a3a3a";
+        storySpan.style.borderLeft = "5px solid #ffa500";
+      } else {
+        document.body.style.backgroundColor = "#f4f4f4";
+        document.body.style.color = "#333";
+        form.style.background = "white";
+        storySpan.style.background = "#e7f3ff";
+        storySpan.style.borderLeft = "5px solid #4a90e2";
+      }
+    });
+  </script>
+</body>
+</html>
