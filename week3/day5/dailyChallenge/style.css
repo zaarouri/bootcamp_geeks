@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #ff4e50, #f9d423);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 300px;
+  width: 350px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #fff;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  font-weight: bold;
+  background-color: #2d89ef;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.listTasks {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.task .fa-xmark {
+  color: red;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.task input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.task label {
+  flex-grow: 1;
+}
+
+.task.done label {
+  color: red;
+  text-decoration: line-through;
+}
