@@ -1,0 +1,27 @@
+<!-- display.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Display Form Data</title>
+</head>
+<body>
+  <h2>Received Data:</h2>
+  <section id="output"></section>
+
+  <script>
+    // Get URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    const lastname = params.get("lastname");
+
+    // Insert into section using DOM
+    const section = document.getElementById("output");
+    if (name && lastname) {
+      section.innerHTML = `<p>Hello, <strong>${name} ${lastname}</strong>!</p>`;
+    } else {
+      section.innerHTML = "<p>No data received.</p>";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Quote Generator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    section { margin: 20px 0; }
+    button { margin: 5px; }
+    input, textarea { margin: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>🎲 Random Quote Generator</h1>
+
+  <!-- Display Quote -->
+  <section id="quoteDisplay">
+    <blockquote id="quoteText"></blockquote>
+    <p id="quoteAuthor"></p>
+  </section>
+
+  <button onclick="generateQuote()">Generate Quote</button>
+  <button onclick="countChars(true)">Count Characters (with spaces)</button>
+  <button onclick="countChars(false)">Count Characters (no spaces)</button>
+  <button onclick="countWords()">Count Words</button>
+  <button onclick="likeQuote()">❤️ Like</button>
+
+  <hr>
+
+  <!-- Add Quote Form -->
+  <h3>Add a New Quote</h3>
+  <form id="addQuoteForm">
+    <input type="text" id="newAuthor" placeholder="Author" required><br>
+    <textarea id="newQuote" placeholder="Quote" rows="3" required></textarea><br>
+    <button type="submit">Add Quote</button>
+  </form>
+
+  <hr>
+
+  <!-- Filter by Author -->
+  <h3>Filter Quotes by Author</h3>
+  <form id="filterForm">
+    <input type="text" id="filterAuthor" placeholder="Author name" required>
+    <button type="submit">Filter</button>
+  </form>
+  <div>
+    <button onclick="prevFiltered()">⬅️ Previous</button>
+    <button onclick="nextFiltered()">➡️ Next</button>
+  </div>
+
+  <script>
+    // Quotes array
+    let quotes = [
+      { id: 0, author: "Marcus Aurelius", quote: "You have power over your mind – not outside events. Realize this, and you will find strength.", likes: 0 },
+      { id: 1, author: "Seneca", quote: "Luck is what happens when preparation meets opportunity.", likes: 0 },
+      { id: 2, author: "Epictetus", quote: "It’s not what happens to you, but how you react to it that matters.", likes: 0 }
+    ];
+
+    let lastIndex = -1;
+    let currentIndex = -1;
+    let filteredQuotes = [];
+    let filteredIndex = 0;
+
+    // Generate random quote (no repeat)
+    function generateQuote() {
+      let index;
+      do {
+        index = Math.floor(Math.random() * quotes.length);
+      } while (index === lastIndex && quotes.length > 1);
+      lastIndex = index;
+      currentIndex = index;
+      displayQuote(quotes[index]);
+    }
+
+    // Display quote on page
+    function displayQuote(quote) {
+      document.getElementById('quoteText').textContent = `"${quote.quote}"`;
+      document.getElementById('quoteAuthor').textContent = `— ${quote.author} (❤️ ${quote.likes})`;
+    }
+
+    // Count characters
+    function countChars(includeSpaces) {
+      if (currentIndex === -1) return alert("Generate a quote first.");
+      const q = quotes[currentIndex].quote;
+      const count = includeSpaces ? q.length : q.replace(/\s/g, '').length;
+      alert(`Character count: ${count}`);
+    }
+
+    // Count words
+    function countWords() {
+      if (currentIndex === -1) return alert("Generate a quote first.");
+      const words = quotes[currentIndex].quote.trim().split(/\s+/);
+      alert(`Word count: ${words.length}`);
+    }
+
+    // Like quote
+    function likeQuote() {
+      if (currentIndex === -1) return alert("Generate a quote first.");
+      quotes[currentIndex].likes++;
+      displayQuote(quotes[currentIndex]);
+    }
+
+    // Add new quote
+    document.getElementById("addQuoteForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const author = document.getElementById("newAuthor").value.trim();
+      const quote = document.getElementById("newQuote").value.trim();
+      if (!author || !quote) return alert("Fill in all fields.");
+      const newId = quotes.length;
+      quotes.push({ id: newId, author, quote, likes: 0 });
+      alert("Quote added!");
+      e.target.reset();
+    });
+
+    // Filter quotes
+    document.getElementById("filterForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const authorName = document.getElementById("filterAuthor").value.trim().toLowerCase();
+      filteredQuotes = quotes.filter(q => q.author.toLowerCase().includes(authorName));
+      if (filteredQuotes.length === 0) {
+        alert("No quotes found for this author.");
+        return;
+      }
+      filteredIndex = 0;
+      displayQuote(filteredQuotes[filteredIndex]);
+    });
+
+    // Navigate filtered quotes
+    function nextFiltered() {
+      if (filteredQuotes.length === 0) return;
+      filteredIndex = (filteredIndex + 1) % filteredQuotes.length;
+      displayQuote(filteredQuotes[filteredIndex]);
+    }
+
+    function prevFiltered() {
+      if (filteredQuotes.length === 0) return;
+      filteredIndex = (filteredIndex - 1 + filteredQuotes.length) % filteredQuotes.length;
+      displayQuote(filteredQuotes[filteredIndex]);
+    }
+  </script>
+
+</body>
+</html>

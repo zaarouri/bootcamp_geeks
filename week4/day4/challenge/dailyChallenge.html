@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON Form Output</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    label, input { display: block; margin: 5px 0; }
+    #output { background: #f4f4f4; padding: 10px; margin-top: 15px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+  <h2>Daily Challenge: HTML Form ➡️ JSON Output</h2>
+
+  <form id="userForm">
+    <label>First Name:
+      <input type="text" name="firstName" required>
+    </label>
+    <label>Last Name:
+      <input type="text" name="lastName" required>
+    </label>
+    <button type="submit">Send</button>
+  </form>
+
+  <h3>Output:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    const form = document.getElementById('userForm');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent page refresh
+
+      const formData = new FormData(form);
+      const data = {
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName")
+      };
+
+      output.textContent = JSON.stringify(data, null, 2); // pretty print
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>XP Exercises - HTTP & JSON</title>
+</head>
+<body>
+  <h1>🌟 XP Exercises: Forms & JSON</h1>
+
+  <!-- 🌟 Exercise 1: Form using GET -->
+  <form method="GET" action="">
+    <h2>Exercise 1: Form (GET)</h2>
+    <label>Name: <input type="text" name="name"></label><br><br>
+    <label>Message:<br>
+      <textarea name="message" rows="3" cols="30"></textarea>
+    </label><br><br>
+    <input type="submit" value="Send (GET)">
+  </form>
+
+  <hr>
+
+  <!-- 🌟 Exercise 2: Form using POST -->
+  <form method="POST" action="">
+    <h2>Exercise 2: Form (POST)</h2>
+    <label>Name: <input type="text" name="name"></label><br><br>
+    <label>Message:<br>
+      <textarea name="message" rows="3" cols="30"></textarea>
+    </label><br><br>
+    <input type="submit" value="Send (POST)">
+  </form>
+
+  <hr>
+
+  <!-- 🌟 Exercise 3: JSON Mario -->
+  <h2>Exercise 3: JSON Mario</h2>
+  <pre id="json-output"></pre>
+
+  <script>
+    // GET data display
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("name") || params.has("message")) {
+      const name = params.get("name") || "(empty)";
+      const message = params.get("message") || "(empty)";
+      document.body.insertAdjacentHTML("beforeend", `<h3>GET Data Received:</h3><p><strong>Name:</strong> ${name}</p><p><strong>Message:</strong> ${message}</p>`);
+    }
+
+    // Exercise 3: JSON Mario
+    const marioGame = {
+      detail: "An amazing game!",
+      characters: {
+        mario: {
+          description: "Small and jumpy. Likes princesses.",
+          height: 10,
+          weight: 3,
+          speed: 12,
+        },
+        bowser: {
+          description: "Big and green, Hates princesses.",
+          height: 16,
+          weight: 6,
+          speed: 4,
+        },
+        princessPeach: {
+          description: "Beautiful princess.",
+          height: 12,
+          weight: 2,
+          speed: 2,
+        }
+      }
+    };
+
+    const jsonCompact = JSON.stringify(marioGame);
+    const jsonPretty = JSON.stringify(marioGame, null, 2);
+    document.getElementById("json-output").textContent = jsonPretty;
+
+    // Use debugger to inspect:
+    debugger;
+  </script>
+</body>
+</html>
