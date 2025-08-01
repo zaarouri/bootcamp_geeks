@@ -1,0 +1,77 @@
+h1{
+  text-align: center;
+  color: #333;
+  font-size: 2em;
+  margin-top: 20px;
+}
+#gameBoard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 300px;
+  margin: 20px auto;
+}
+.cell {
+  width: 100%;
+  padding-top: 100%;        /* perfect square */
+  position: relative;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 120ms ease, transform 80ms ease;
+}
+.cell:hover { background: #ddd; }
+.cell:active { transform: scale(0.98); }
+
+/* Center the mark via ::after, using data-mark */
+.cell::after {
+  content: attr(data-mark);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 2.2em;
+  line-height: 1;
+  color: #333; /* fallback */
+}
+
+/* Distinct colors for X and O */
+.cell.x::after { color: #e63946; } /* X */
+.cell.o::after { color: #1d3557; } /* O */
+
+/* Winning highlight */
+.cell.win {
+  box-shadow: 0 0 0 3px #ffd166 inset;
+  background: #ffe8a133;
+}
+
+select {
+  display: block;
+  width: 50%;
+  padding: 10px;
+  margin: 10px auto;
+  font-size: 1em;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#resetButton {
+  display: block;
+  width: 120px;
+  padding: 10px;
+  margin: 16px auto;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#resetButton:hover { filter: brightness(0.95); }
+
+#status {
+  text-align: center;
+  font-weight: 600;
+  min-height:

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h1>Unbeatable Tic Tac Toe Game</h1>
+
+  <select name="difficulty" id="difficulty">
+    <option value="easy">Easy</option>
+    <option value="hard">Hard</option>
+  </select>
+
+  <select name="players" id="players">
+    <option value="X">Player X</option>
+    <option value="O">Player O</option>
+  </select>
+
+  <div id="gameBoard">
+    <div class="cell" id="0"></div>
+    <div class="cell" id="1"></div>
+    <div class="cell" id="2"></div>
+    <div class="cell" id="3"></div>
+    <div class="cell" id="4"></div>
+    <div class="cell" id="5"></div>
+    <div class="cell" id="6"></div>
+    <div class="cell" id="7"></div>
+    <div class="cell" id="8"></div>
+  </div>
+
+  <button id="resetButton" type="button">Reset</button>
+
+  <p id="status" aria-live="polite"></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
