@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌌 Star Wars Character Viewer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Star Wars Character</h1>
+    <button id="getCharacter">Get Character</button>
+
+    <div id="loader" class="hidden">
+      <i class="fas fa-spinner fa-spin"></i> Loading...
+    </div>
+
+    <div id="error" class="error hidden">❌ Failed to load character. Try again.</div>
+
+    <div id="characterInfo" class="card hidden">
+      <p><strong>Name:</strong> <span id="name"></span></p>
+      <p><strong>Height:</strong> <span id="height"></span></p>
+      <p><strong>Gender:</strong> <span id="gender"></span></p>
+      <p><strong>Birth Year:</strong> <span id="birthYear"></span></p>
+      <p><strong>Homeworld:</strong> <span id="homeworld"></span></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

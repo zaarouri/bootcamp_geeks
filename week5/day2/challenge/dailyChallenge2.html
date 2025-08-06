@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌅 Sunrise Time Comparison</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #2d88ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Compare Sunrise Times 🌞</h2>
+
+  <form id="sunriseForm">
+    <h3>City 1</h3>
+    <label>Latitude:
+      <input type="number" id="lat1" step="any" required>
+    </label>
+    <label>Longitude:
+      <input type="number" id="lng1" step="any" required>
+    </label>
+
+    <h3>City 2</h3>
+    <label>Latitude:
+      <input type="number" id="lat2" step="any" required>
+    </label>
+    <label>Longitude:
+      <input type="number" id="lng2" step="any" required>
+    </label>
+
+    <button type="submit">Get Sunrise Times</button>
+  </form>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    const form = document.getElementById("sunriseForm");
+    const resultDiv = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const lat1 = document.getElementById("lat1").value;
+      const lng1 = document.getElementById("lng1").value;
+      const lat2 = document.getElementById("lat2").value;
+      const lng2 = document.getElementById("lng2").value;
+
+      const url1 = `https://api.sunrise-sunset.org/json?lat=${lat1}&lng=${lng1}&formatted=0`;
+      const url2 = `https://api.sunrise-sunset.org/json?lat=${lat2}&lng=${lng2}&formatted=0`;
+
+      try {
+        const [res1, res2] = await Promise.all([
+          fetch(url1).then(res => res.json()),
+          fetch(url2).then(res => res.json())
+        ]);
+
+        const sunrise1 = new Date(res1.results.sunrise).toLocaleTimeString();
+        const sunrise2 = new Date(res2.results.sunrise).toLocaleTimeString();
+
+        resultDiv.innerHTML = `
+          <strong>City 1 Sunrise:</strong> ${sunrise1}<br>
+          <strong>City 2 Sunrise:</strong> ${sunrise2}
+        `;
+      } catch (error) {
+        resultDiv.textContent = "❌ Error fetching sunrise times.";
+        console.error("Error:", error);
+      }
+    });
+  </script>
+
+</body>
+</html>
