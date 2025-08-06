@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎲 Giphy Random by Category</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    form {
+      margin-bottom: 1rem;
+    }
+    #gif-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .gif-card {
+      position: relative;
+      display: inline-block;
+    }
+    .gif-card img {
+      width: 250px;
+      border-radius: 8px;
+    }
+    .gif-card button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎯 Search Random Giphy by Category</h2>
+
+  <!-- Search Form -->
+  <form id="gifForm">
+    <input type="text" id="searchInput" placeholder="Enter a category..." required>
+    <button type="submit">Get Random GIF</button>
+  </form>
+
+  <!-- Delete All Button -->
+  <button id="deleteAll">❌ Delete All GIFs</button>
+
+  <!-- GIF Container -->
+  <div id="gif-container"></div>
+
+  <script>
+    const API_KEY = 'hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My';
+    const form = document.getElementById('gifForm');
+    const container = document.getElementById('gif-container');
+    const deleteAllBtn = document.getElementById('deleteAll');
+
+    // Fetch random gif by tag (category)
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      const url = `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${query}&rating=g`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+        const { data } = await res.json();
+
+        const imgUrl = data.images.original.url;
+
+        // Create card
+        const card = document.createElement('div');
+        card.className = 'gif-card';
+
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.alt = query;
+
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'DELETE';
+        delBtn.onclick = () => card.remove();
+
+        card.appendChild(img);
+        card.appendChild(delBtn);
+        container.appendChild(card);
+      } catch (err) {
+        console.error("Error fetching gif:", err);
+      }
+    });
+
+    // Delete all gifs
+    deleteAllBtn.addEventListener('click', () => {
+      container.innerHTML = '';
+    });
+  </script>
+
+</body>
+</html>
