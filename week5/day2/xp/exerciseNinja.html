@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Giphy API #3 & Promise Analysis</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #gif-container img { margin: 10px; width: 200px; border-radius: 10px; }
+    form, button { margin-top: 1rem; }
+  </style>
+</head>
+<body>
+
+  <h2>🎯 Search Giphy</h2>
+
+  <!-- 🌟 Exercise 1 : Giphy API #3 -->
+  <form id="gifForm">
+    <input type="text" id="searchInput" placeholder="Search a category..." required>
+    <button type="submit">Search GIFs</button>
+  </form>
+
+  <button id="deleteButton">❌ Delete All GIFs</button>
+
+  <div id="gif-container"></div>
+
+  <script>
+    const API_KEY = "hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+    const form = document.getElementById("gifForm");
+    const gifContainer = document.getElementById("gif-container");
+    const deleteButton = document.getElementById("deleteButton");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const query = document.getElementById("searchInput").value.trim();
+      if (!query) return;
+
+      const url = `https://api.giphy.com/v1/gifs/search?q=${query}&limit=5&rating=g&api_key=${API_KEY}`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Something went wrong");
+
+        const data = await response.json();
+        gifContainer.innerHTML = ""; // Optional: clear previous gifs
+        data.data.forEach(gif => {
+          const img = document.createElement("img");
+          img.src = gif.images.original.url;
+          img.alt = query;
+          gifContainer.appendChild(img);
+        });
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    });
+
+    deleteButton.addEventListener("click", () => {
+      gifContainer.innerHTML = "";
+    });
+
+
+    // 🌟 Exercise 2 : Analyze #4 - Promise.all
+    let resolveAfter2Seconds = function () {
+      console.log("starting slow promise");
+      return new Promise(resolve => {
+        setTimeout(function () {
+          resolve("slow");
+          console.log("slow promise is done");
+        }, 2000);
+      });
+    };
+
+    let resolveAfter1Second = function () {
+      console.log("starting fast promise");
+      return new Promise(resolve => {
+        setTimeout(function () {
+          resolve("fast");
+          console.log("fast promise is done");
+        }, 1000);
+      });
+    };
+
+    let concurrentPromise = function () {
+      console.log('==CONCURRENT START with Promise.all==');
+      return Promise.all([resolveAfter2Seconds(), resolveAfter1Second()])
+        .then((messages) => {
+          console.log(messages[0]);
+          console.log(messages[1]);
+        });
+    };
+
+    setTimeout(concurrentPromise, 1000);
+    /*
+    🔍 Output:
+    ==CONCURRENT START with Promise.all==
+    starting slow promise
+    starting fast promise
+    fast promise is done (after 1s)
+    slow promise is done (after 2s)
+    slow
+    fast
+    */
+
+
+    // 🌟 Exercise 3 : Analyze #5 - Parallel using await Promise.all
+    let parallel = async function () {
+      console.log('==PARALLEL with await Promise.all==');
+      await Promise.all([
+        (async () => console.log(await resolveAfter2Seconds()))(),
+        (async () => console.log(await resolveAfter1Second()))()
+      ]);
+    };
+
+    setTimeout(parallel, 5000);
+    /*
+    🔍 Output:
+    ==PARALLEL with await Promise.all==
+    starting slow promise
+    starting fast promise
+    fast promise is done (after 1s)
+    slow promise is done (after 2s)
+    slow
+    fast
+    */
+
+
+    // 🌟 Exercise 4 : Analyze #6 - Parallel using .then()
+    let parallelPromise = function () {
+      console.log('==PARALLEL with Promise.then==');
+      resolveAfter2Seconds().then((message) => console.log(message));
+      resolveAfter1Second().then((message) => console.log(message));
+    };
+
+    setTimeout(parallelPromise, 13000);
+    /*
+    🔍 Output:
+    ==PARALLEL with Promise.then==
+    starting slow promise
+    starting fast promise
+    fast promise is done (after 1s)
+    slow promise is done (after 2s)
+    fast
+    slow
+    */
+
+  </script>
+
+</body>
+</html>
