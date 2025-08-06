@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fetch & Async Exercises</title>
+</head>
+<body>
+  <h2>Check the console for results</h2>
+  <script>
+    // 🌟 Exercise 1 : Giphy API - Search "hilarious"
+    const URL = "https://api.giphy.com/v1/gifs/search?q=hilarious&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+
+    fetch(URL)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => console.log("Exercise 1 - Hilarious GIFs:", data))
+      .catch(err => console.error("Exercise 1 Error:", err));
+
+
+    // 🌟 Exercise 2 : Giphy API - Search "sun", limit 10, offset 2
+    const sunURL = "https://api.giphy.com/v1/gifs/search?q=sun&limit=10&offset=2&rating=g&api_key=hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My";
+
+    fetch(sunURL)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => console.log("Exercise 2 - Sun GIFs:", data))
+      .catch(err => console.error("Exercise 2 Error:", err));
+
+
+    // 🌟 Exercise 3 : Async/Await version of SWAPI call
+    async function getStarship() {
+      try {
+        const response = await fetch("https://www.swapi.tech/api/starships/9/");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        console.log("Exercise 3 - Starship Data:", data.result);
+      } catch (err) {
+        console.error("Exercise 3 Error:", err);
+      }
+    }
+
+    getStarship();
+
+
+    // 🌟 Exercise 4 : Analyze
+    function resolveAfter2Seconds() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve('resolved');
+        }, 2000);
+      });
+    }
+
+    async function asyncCall() {
+      console.log("Exercise 4 - Start: calling");
+      let result = await resolveAfter2Seconds();
+      console.log("Exercise 4 - After await:", result);
+    }
+
+    asyncCall();
+
+    /*
+      🌟 Exercise 4 Analysis:
+      Output:
+      calling
+      (after 2 seconds)
+      resolved
+
+      Explanation:
+      - `asyncCall()` starts and logs 'calling'
+      - It pauses at `await resolveAfter2Seconds()`
+      - After 2 seconds, the promise resolves with 'resolved'
+      - Then it logs 'resolved'
+    */
+
+  </script>
+</body>
+</html>
