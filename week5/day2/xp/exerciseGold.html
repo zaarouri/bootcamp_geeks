@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Giphy & Async Exercises</title>
+</head>
+<body>
+  <h2>Check Console + Page Output Below</h2>
+  <div id="gif-container"></div>
+
+  <script>
+    // 🌟 Exercise 1 : Giphy API #2 - Fetch and Display Random Gif
+    const API_KEY = 'hpvZycW22qCjn5cRM1xtWB8NKq4dQ2My';
+    const GIPHY_URL = `https://api.giphy.com/v1/gifs/search?q=random&limit=10&rating=g&api_key=${API_KEY}`;
+
+    async function fetchAndDisplayGif() {
+      try {
+        const response = await fetch(GIPHY_URL);
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+        const data = await response.json();
+
+        const gifs = data.data;
+        const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+
+        const img = document.createElement("img");
+        img.src = randomGif.images.original.url;
+        img.alt = "Random Gif";
+        img.width = 300;
+
+        document.getElementById("gif-container").appendChild(img);
+      } catch (error) {
+        console.error("Exercise 1 Error:", error);
+      }
+    }
+
+    fetchAndDisplayGif();
+
+
+    // 🌟 Exercise 2 : Analyze #2 - Sequential Start
+    let resolveAfter2Seconds = function () {
+      console.log("starting slow promise");
+      return new Promise(resolve => {
+        setTimeout(function () {
+          resolve("slow");
+          console.log("slow promise is done");
+        }, 2000);
+      });
+    };
+
+    let resolveAfter1Second = function () {
+      console.log("starting fast promise");
+      return new Promise(resolve => {
+        setTimeout(function () {
+          resolve("fast");
+          console.log("fast promise is done");
+        }, 1000);
+      });
+    };
+
+    let sequentialStart = async function () {
+      console.log('==SEQUENTIAL START==');
+      const slow = await resolveAfter2Seconds(); // waits 2s
+      console.log(slow);
+      const fast = await resolveAfter1Second(); // then waits 1s
+      console.log(fast);
+    }
+
+    sequentialStart();
+
+    /*
+    📘 Output:
+    ==SEQUENTIAL START==
+    starting slow promise
+    (after 2s)
+    slow promise is done
+    slow
+    starting fast promise
+    (after 1s)
+    fast promise is done
+    fast
+    */
+
+
+    // 🌟 Exercise 3 : Analyze #3 - Concurrent Start
+    let concurrentStart = async function () {
+      console.log('==CONCURRENT START with await==');
+      const slow = resolveAfter2Seconds();  // starts immediately
+      const fast = resolveAfter1Second();   // starts immediately
+      console.log(await slow);  // waits 2s
+      console.log(await fast);  // already resolved after 1s
+    }
+
+    setTimeout(concurrentStart, 5000);
+
+    /*
+    📘 Output:
+    (after 5s delay)
+    ==CONCURRENT START with await==
+    starting slow promise
+    starting fast promise
+    (after 1s)
+    fast promise is done
+    (after 2s)
+    slow promise is done
+    slow
+    fast
+    */
+
+    // 🌟 Exercise 4 : Modify fetch with Async/Await & Error Handling
+    const urls = [
+      "https://jsonplaceholder.typicode.com/users",
+      "https://jsonplaceholder.typicode.com/posts",
+      "https://jsonplaceholder.typicode.com/albums" // Try breaking one to test catch
+    ];
+
+    const getData = async function () {
+      try {
+        const responses = await Promise.all(urls.map(async url => {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`Bad status: ${res.status}`);
+          return await res.json();
+        }));
+
+        const [users, posts, albums] = responses;
+        console.log('✅ users:', users);
+        console.log('✅ posts:', posts);
+        console.log('✅ albums:', albums);
+      } catch (err) {
+        console.log('❌ ooooooops', err);
+      }
+    }
+
+    getData();
+  </script>
+</body>
+</html>
